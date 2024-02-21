@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>exemple_sudoku.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (21 déc. 2023 11:04:41)</a> &gt; <a href="../../index.html" class="el_group">Code</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">sudoku</a> &gt; <span class="el_source">exemple_sudoku.java</span></div><h1>exemple_sudoku.java</h1><pre class="source lang-java linenums">package sudoku;
+
+<span class="nc" id="L3">public class exemple_sudoku {</span>
+
+	public static void main(String[] args) {
+<span class="nc" id="L6">		String row1 = &quot;..3.2.6..&quot;;</span>
+<span class="nc" id="L7">        String row2 = &quot;9..3.5..1&quot;;</span>
+<span class="nc" id="L8">        String row3 = &quot;..18.64..&quot;;</span>
+<span class="nc" id="L9">        String row4 = &quot;..81.29..&quot;;</span>
+<span class="nc" id="L10">        String row5 = &quot;7.......8&quot;;</span>
+<span class="nc" id="L11">        String row6 = &quot;..67.82..&quot;;</span>
+<span class="nc" id="L12">        String row7 = &quot;..26.95..&quot;;</span>
+<span class="nc" id="L13">        String row8 = &quot;8..2.3..9&quot;;</span>
+<span class="nc" id="L14">        String row9 = &quot;..5.1.3..&quot;;</span>
+
+<span class="nc" id="L16">        Puzzle puzzle = new Puzzle(row1 + row2 + row3 + row4 + row5 + row6 + row7 + row8 + row9);</span>
+        
+<span class="nc" id="L18">        puzzle.solve();</span>
+			
+<span class="nc" id="L20">		System.out.println( puzzle.solutionAsSingleString() );</span>
+        
+<span class="nc" id="L22">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span>test (21 déc. 2023 11:04:41)</div></body></html>

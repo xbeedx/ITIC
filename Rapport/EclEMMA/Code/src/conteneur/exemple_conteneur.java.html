@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>exemple_conteneur.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (21 déc. 2023 11:04:41)</a> &gt; <a href="../../index.html" class="el_group">Code</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">conteneur</a> &gt; <span class="el_source">exemple_conteneur.java</span></div><h1>exemple_conteneur.java</h1><pre class="source lang-java linenums">package conteneur;
+
+import testEtat.Conteneur;
+
+<span class="nc" id="L5">public class exemple_conteneur {</span>
+
+	public static void main(String[] args) {
+
+		Conteneur C;
+		Object A1, A2, A3, A4, A5, B1, B2, B3, B4, B5;
+
+		try{
+
+<span class="nc" id="L14">			C = new Conteneur(5);</span>
+<span class="nc" id="L15">			A1 = new Object();</span>
+<span class="nc" id="L16">			A2 = new Object();</span>
+<span class="nc" id="L17">			A3 = new Object();</span>
+<span class="nc" id="L18">			A4 = new Object();</span>
+<span class="nc" id="L19">			A5 = new Object();</span>
+<span class="nc" id="L20">			B1 = new Object();</span>
+<span class="nc" id="L21">			B2 = new Object();</span>
+<span class="nc" id="L22">			B3 = new Object();</span>
+<span class="nc" id="L23">			B4 = new Object();</span>
+<span class="nc" id="L24">			B5 = new Object();</span>
+			
+<span class="nc" id="L26">			C.ajouter(A1, B1);</span>
+<span class="nc" id="L27">			C.ajouter(A2, B2);</span>
+<span class="nc" id="L28">			C.ajouter(A3, B3);</span>
+<span class="nc" id="L29">			C.ajouter(A4, B4);</span>
+<span class="nc" id="L30">			C.ajouter(A5, B5);</span>
+			
+<span class="nc bnc" id="L32" title="All 2 branches missed.">			System.out.println(&quot;conteneur est plein ? : &quot; + (C.taille() == C.capacite()));</span>
+			
+<span class="nc" id="L34">		}catch (Exception ex) {</span>
+<span class="nc" id="L35">			ex.printStackTrace();</span>
+		}
+<span class="nc" id="L37">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span>test (21 déc. 2023 11:04:41)</div></body></html>

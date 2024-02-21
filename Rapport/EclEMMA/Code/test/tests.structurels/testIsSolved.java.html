@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>testIsSolved.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (21 déc. 2023 11:04:41)</a> &gt; <a href="../../index.html" class="el_group">Code</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">tests.structurels</a> &gt; <span class="el_source">testIsSolved.java</span></div><h1>testIsSolved.java</h1><pre class="source lang-java linenums">package tests.structurels;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import sudoku.Puzzle;
+
+<span class="fc" id="L12">class testIsSolved {</span>
+	
+	private Puzzle puzzle;
+
+    @BeforeAll
+    static void setUpBeforeClass() {
+        // Initialize resources shared by all tests in this class (if any)
+<span class="fc" id="L19">    }</span>
+
+    @AfterAll
+    static void tearDownAfterClass() {
+        // Release resources used by all tests in this class (if any)
+<span class="fc" id="L24">    }</span>
+
+    @BeforeEach
+    void setUp() {
+        // Initialize resources before each test
+<span class="fc" id="L29">    	puzzle = null; // Reset the puzzle before each test</span>
+<span class="fc" id="L30">    }</span>
+
+    @AfterEach
+    void tearDown() {
+        // Release resources after each test
+<span class="fc" id="L35">    	puzzle = null; // Ensure that puzzle is null after each test</span>
+<span class="fc" id="L36">    }</span>
+
+	@Test
+	void isSolvedTest1() {
+		//Ch2
+		
+		/*
+		 * 0 &lt; dimension0
+		 * Box(0,0).isSolved()
+		 * 1 &lt; dimension0
+		 * !Box(0,1).isSolved()
+		*/
+<span class="fc" id="L48">		String row1 = &quot;1.3&quot;;</span>
+<span class="fc" id="L49">		String row2 = &quot;231&quot;;</span>
+<span class="fc" id="L50">		String row3 = &quot;312&quot;;</span>
+<span class="fc" id="L51">		puzzle= new Puzzle(row1 + row2 + row3);</span>
+<span class="fc" id="L52">		Assertions.assertFalse(puzzle.isSolved());</span>
+<span class="fc" id="L53">	}</span>
+	
+	@Test
+	void isSolvedTest2() {
+		//Ch4
+		/*
+		 * 0 &lt; dimension0
+		 * 0 &lt; dimension0
+		 * Box(0,0).isSolved()
+		 * 1 &lt; dimension0
+		 * Box(0,1).isSolved()
+		 * 2 &gt;= dimension0
+		 * 1 &lt; dimension0
+		 * 0 &lt; dimension0
+		 * Box(1,0).isSolved()
+		 * 1 &lt; dimension0
+		 * Box(1,1).isSolved()
+		 * 2 &gt;= dimension0
+		 * 2 &gt;= dimension0
+		*/
+<span class="fc" id="L73">		String row1 = &quot;12&quot;;</span>
+<span class="fc" id="L74">		String row2 = &quot;21&quot;;</span>
+<span class="fc" id="L75">		puzzle= new Puzzle(row1 + row2);</span>
+<span class="fc" id="L76">		Assertions.assertTrue(puzzle.isSolved());</span>
+<span class="fc" id="L77">	}</span>
+	
+	@Test
+	void isSolvedTest3() {
+		//Ch5
+		/*
+		 * 0 &lt; dimension0
+		 * !Box(0,0).Solved()
+		*/
+<span class="fc" id="L86">		String row1 = &quot;.23&quot;;</span>
+<span class="fc" id="L87">		String row2 = &quot;231&quot;;</span>
+<span class="fc" id="L88">		String row3 = &quot;312&quot;;</span>
+<span class="fc" id="L89">		puzzle= new Puzzle(row1 + row2 + row3);</span>
+<span class="fc" id="L90">		Assertions.assertFalse(puzzle.isSolved());</span>
+<span class="fc" id="L91">	}</span>
+	
+	@Test
+	void isSolvedTest4() {
+		//Ch6
+		/*
+		 * 0 &lt; dimension0
+		 * Box(0,0).isSolved()
+		 * 1 &gt;= dimension0
+		*/
+<span class="fc" id="L101">		String row1 = &quot;1&quot;;</span>
+<span class="fc" id="L102">		puzzle= new Puzzle(row1);</span>
+<span class="fc" id="L103">		Assertions.assertTrue(puzzle.isSolved());</span>
+<span class="fc" id="L104">	}</span>
+	
+	@Test
+	void isSolvedTest5() {
+		//Ch3
+		/*
+		 * 0 &lt; dimension0
+		 * 0 &lt; dimension0
+		 * Box(0,0).isSolved()
+		 * 1 &lt; dimension0
+		 * Box(0,1).isSolved()
+		 * 2 &gt;= dimension0
+		 * 1 &lt; dimension0
+		 * 0 &lt; dimension0
+		 * Box(1,0).isSolved()
+		 * 1 &lt; dimension0
+		 * !Box(1,1).isSolved()
+		*/
+<span class="fc" id="L122">		String row1 = &quot;12&quot;;</span>
+<span class="fc" id="L123">		String row2 = &quot;2.&quot;;</span>
+<span class="fc" id="L124">		puzzle= new Puzzle(row1 + row2);</span>
+<span class="fc" id="L125">		Assertions.assertFalse(puzzle.isSolved());</span>
+<span class="fc" id="L126">	}</span>
+	
+	@Test
+	void isSolvedTest6() {
+		//Ch8
+		/*
+		 * 0 &lt; dimension0
+		 * 0 &lt; dimension0
+		 * Box(0,0).isSolved()
+		 * 1 &lt; dimension0
+		 * !Box(0,1).isSolved()
+		*/
+<span class="fc" id="L138">		String row1 = &quot;1.3&quot;;</span>
+<span class="fc" id="L139">		String row2 = &quot;231&quot;;</span>
+<span class="fc" id="L140">		String row3 = &quot;312&quot;;</span>
+<span class="fc" id="L141">		puzzle= new Puzzle(row1 + row2 + row3);</span>
+<span class="fc" id="L142">		Assertions.assertFalse(puzzle.isSolved());</span>
+<span class="fc" id="L143">	}</span>
+	
+	@Test
+	void isSolvedTest7() {
+		//Ch9
+		/*
+		 * 0 &lt; dimension0
+		 * 0 &lt; dimension0
+		 * Box(0,0).isSolved()
+		 * 1 &lt; dimension0
+		 * Box(0,1).isSolved()
+		 * 2 &gt;= dimension0
+		 * 1 &lt; dimension0
+		 * 0 &lt; dimension0
+		 * !Box(1,0).isSolved()
+		*/
+<span class="fc" id="L159">		String row1 = &quot;12&quot;;</span>
+<span class="fc" id="L160">		String row2 = &quot;.1&quot;;</span>
+<span class="fc" id="L161">		puzzle= new Puzzle(row1 + row2);</span>
+<span class="fc" id="L162">		Assertions.assertFalse(puzzle.isSolved());</span>
+<span class="fc" id="L163">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span>test (21 déc. 2023 11:04:41)</div></body></html>

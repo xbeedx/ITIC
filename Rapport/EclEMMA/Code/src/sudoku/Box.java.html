@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Box.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (21 déc. 2023 11:04:41)</a> &gt; <a href="../../index.html" class="el_group">Code</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">sudoku</a> &gt; <span class="el_source">Box.java</span></div><h1>Box.java</h1><pre class="source lang-java linenums">package sudoku;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class Box {
+<span class="fc" id="L8">    private List&lt;Integer&gt; possibleValues = new ArrayList&lt;Integer&gt;();</span>
+
+    private int row;
+
+    private int column;
+
+<span class="fc" id="L14">    public Box(int puzzleDimension, int row, int column) {</span>
+<span class="fc" id="L15">        setRowAndColumn(row, column);</span>
+<span class="fc bfc" id="L16" title="All 2 branches covered.">        for (int i = 0; i &lt; puzzleDimension; i++)</span>
+<span class="fc" id="L17">            possibleValues.add(i + 1);</span>
+
+<span class="fc" id="L19">    }</span>
+
+<span class="fc" id="L21">    public Box(int dimension, int row, int column, int possibleValue) {</span>
+<span class="fc" id="L22">        setRowAndColumn(row, column);</span>
+<span class="fc" id="L23">        possibleValues.add(possibleValue);</span>
+<span class="fc" id="L24">    }</span>
+
+    public int numberOfPossibleValues() {
+<span class="nc" id="L27">        return possibleValues.size();</span>
+    }
+
+    public int row() {
+<span class="fc" id="L31">        return row;</span>
+    }
+
+    public int column() {
+<span class="fc" id="L35">        return column;</span>
+    }
+
+    public void setValue(int currentValue) {
+<span class="fc" id="L39">        possibleValues = new ArrayList&lt;Integer&gt;();</span>
+<span class="fc" id="L40">        possibleValues.add(currentValue);</span>
+<span class="fc" id="L41">    }</span>
+
+    public void removePossibleValue(int valueToBeRemoved) {
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (int i = 0; i &lt; possibleValues.size(); i++)</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">            if (possibleValues.get(i).intValue() == valueToBeRemoved)</span>
+<span class="nc" id="L46">                possibleValues.remove(i);</span>
+<span class="nc" id="L47">    }</span>
+
+    public int getSolvedValue() {
+<span class="nc" id="L50">        return possibleValues.get(0);</span>
+    }
+
+    public boolean isSolved() {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        return SudokuUtils.length(possibleValues) == 1;</span>
+    }
+
+    public List&lt;Integer&gt; getPossibleValues() {
+<span class="nc" id="L58">        return possibleValues;</span>
+    }
+
+    public void copyPossibleValues(List&lt;Integer&gt; possibleValues) {
+<span class="nc" id="L62">        this.possibleValues = new ArrayList&lt;Integer&gt;();</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        for (Integer possibleValue : possibleValues)</span>
+<span class="nc" id="L64">            this.possibleValues.add(possibleValue);</span>
+<span class="nc" id="L65">    }</span>
+
+    public List&lt;Box&gt; getPeers(Puzzle puzzle) {
+<span class="nc" id="L68">        ArrayList&lt;Box&gt; peers = new ArrayList&lt;Box&gt;();</span>
+<span class="nc" id="L69">        addUnique(peers, getPeersInSameRow(puzzle));</span>
+<span class="nc" id="L70">        addUnique(peers, getPeersInSameColumn(puzzle));</span>
+<span class="nc" id="L71">        addUnique(peers, getPeersInSameSubSquare(puzzle));</span>
+<span class="nc" id="L72">        return peers;</span>
+    }
+
+    public List&lt;List&lt;Box&gt;&gt; getPeersPerUnit(Puzzle puzzle) {
+<span class="nc" id="L76">        List&lt;List&lt;Box&gt;&gt; peersPerUnit = new ArrayList&lt;List&lt;Box&gt;&gt;();</span>
+<span class="nc" id="L77">        peersPerUnit.add(getPeersInSameRow(puzzle));</span>
+<span class="nc" id="L78">        peersPerUnit.add(getPeersInSameColumn(puzzle));</span>
+<span class="nc" id="L79">        peersPerUnit.add(getPeersInSameSubSquare(puzzle));</span>
+<span class="nc" id="L80">        return peersPerUnit;</span>
+    }
+
+    public List&lt;Box&gt; getPeersInSameRow(Puzzle puzzle) {
+<span class="nc" id="L84">        ArrayList&lt;Box&gt; boxes = new ArrayList&lt;Box&gt;();</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        for (int currentcolumn = 0; currentcolumn &lt; puzzle.dimension(); currentcolumn++)</span>
+<span class="nc" id="L86">            boxes.add(puzzle.getBox(row(), currentcolumn));</span>
+<span class="nc" id="L87">        boxes.remove(this);</span>
+<span class="nc" id="L88">        return boxes;</span>
+    }
+
+    public List&lt;Box&gt; getPeersInSameColumn(Puzzle puzzle) {
+<span class="nc" id="L92">        ArrayList&lt;Box&gt; boxes = new ArrayList&lt;Box&gt;();</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        for (int currentrow = 0; currentrow &lt; puzzle.dimension(); currentrow++)</span>
+<span class="nc" id="L94">            boxes.add(puzzle.getBox(currentrow, column()));</span>
+<span class="nc" id="L95">        boxes.remove(this);</span>
+<span class="nc" id="L96">        return boxes;</span>
+    }
+
+    public List&lt;Box&gt; getPeersInSameSubSquare(Puzzle puzzle) {
+<span class="nc" id="L100">        List&lt;Box&gt; boxes = new ArrayList&lt;Box&gt;();</span>
+<span class="nc" id="L101">        int subSquares = (int) Math.sqrt(puzzle.dimension());</span>
+
+<span class="nc" id="L103">        int startingsSubSquareRow = (row() / subSquares) * subSquares;</span>
+<span class="nc" id="L104">        int startingSubSquareColumn = (column() / subSquares) * subSquares;</span>
+
+<span class="nc" id="L106">        int endingSubSquarerow = startingsSubSquareRow + subSquares;</span>
+<span class="nc" id="L107">        int endingSubSquarecolumn = startingSubSquareColumn + subSquares;</span>
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        for (int row = startingsSubSquareRow; row &lt; endingSubSquarerow; row++)</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            for (int column = startingSubSquareColumn; column &lt; endingSubSquarecolumn; column++)</span>
+<span class="nc" id="L111">                boxes.add(puzzle.getBox(row, column));</span>
+<span class="nc" id="L112">        boxes.remove(this);</span>
+<span class="nc" id="L113">        return boxes;</span>
+    }
+
+    public List&lt;Box&gt; removeSolvedValuesFromPeers(Puzzle puzzle) throws DuplicateBoxesWithSameSolutionException {
+<span class="nc" id="L117">        List&lt;Box&gt; newSolvedBoxes = new ArrayList&lt;Box&gt;();</span>
+<span class="nc" id="L118">        List&lt;Box&gt; peers = getUnsolvedPeers(puzzle);</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        for (Box peer : peers) {</span>
+<span class="nc" id="L120">            peer.removePossibleValue(getSolvedValue());</span>
+
+<span class="nc bnc" id="L122" title="All 2 branches missed.">            if (peer.isSolved())</span>
+<span class="nc" id="L123">                newSolvedBoxes.add(peer);</span>
+        }
+
+<span class="nc" id="L126">        puzzle.checkForDuplicates();</span>
+
+<span class="nc" id="L128">        return newSolvedBoxes;</span>
+    }
+
+    public List&lt;Box&gt; getUnsolvedPeers(Puzzle puzzle) {
+<span class="nc" id="L132">        List&lt;Box&gt; peers = getPeers(puzzle);</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        for (Iterator&lt;Box&gt; iter = peers.iterator(); iter.hasNext();) {</span>
+<span class="nc" id="L134">            Box peer = iter.next();</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            if (peer.isSolved())</span>
+<span class="nc" id="L136">                iter.remove();</span>
+        }
+<span class="nc" id="L138">        return peers;</span>
+    }
+
+    public boolean anyPeerHasDuplicateSolvedValue(Puzzle puzzle) {
+<span class="nc" id="L142">        List&lt;Box&gt; peers = getPeers(puzzle);</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        for (Box peer : peers) {</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">            if (peer.hasSameSolvedValue(this)) {</span>
+<span class="nc" id="L145">                return true;</span>
+            }
+        }
+<span class="nc" id="L148">        return false;</span>
+    }
+
+    public boolean equals(Object o) {
+<span class="fc" id="L152">        Box anotherBox = (Box) o;</span>
+<span class="pc bpc" id="L153" title="2 of 4 branches missed.">        return row == anotherBox.row &amp;&amp; column == anotherBox.column;</span>
+    }
+
+    public int hashCode() {
+<span class="nc" id="L157">        return (&quot;&quot; + row + &quot;/&quot; + column).hashCode();</span>
+    }
+
+    public String toString() {
+<span class="nc" id="L161">        String asString = &quot;&quot; + row + &quot;:&quot; + column + &quot;[&quot;;</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        for (int possibleValue : possibleValues) {</span>
+<span class="nc" id="L163">            asString += possibleValue;</span>
+        }
+
+<span class="nc" id="L166">        asString += &quot;]&quot;;</span>
+
+<span class="nc" id="L168">        return asString;</span>
+    }
+
+    private boolean hasSameSolvedValue(Box box) {
+<span class="nc bnc" id="L172" title="All 4 branches missed.">        if (!isSolved() || !box.isSolved())</span>
+<span class="nc" id="L173">            return false;</span>
+
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        return getSolvedValue() == box.getSolvedValue();</span>
+    }
+
+    private void setRowAndColumn(int row, int column) {
+<span class="fc" id="L179">        this.row = row;</span>
+<span class="fc" id="L180">        this.column = column;</span>
+<span class="fc" id="L181">    }</span>
+
+    private void addUnique(ArrayList&lt;Box&gt; peers, List&lt;Box&gt; peersInSameRow) {
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        for (Box peer : peersInSameRow)</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">            if (!peers.contains(peer))</span>
+<span class="nc" id="L186">                peers.add(peer);</span>
+<span class="nc" id="L187">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span>test (21 déc. 2023 11:04:41)</div></body></html>

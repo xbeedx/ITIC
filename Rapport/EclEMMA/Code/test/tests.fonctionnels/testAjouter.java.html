@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>testAjouter.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">test (21 déc. 2023 11:04:41)</a> &gt; <a href="../../index.html" class="el_group">Code</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">tests.fonctionnels</a> &gt; <span class="el_source">testAjouter.java</span></div><h1>testAjouter.java</h1><pre class="source lang-java linenums">package tests.fonctionnels;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import testEtat.Conteneur;
+import testEtat.ErreurConteneur;
+
+<span class="fc" id="L12">class testAjouter {</span>
+	
+	static private Conteneur conteneur;
+	static private Object C;
+	static private Object O;
+	
+    @BeforeAll
+    static void setUpBeforeClass() {
+        // Initialize resources shared by all tests in this class (if any)
+<span class="fc" id="L21">    }</span>
+
+    @AfterAll
+    static void tearDownAfterClass() {
+<span class="fc" id="L25">    	 conteneur = null; </span>
+<span class="fc" id="L26">         C = null;</span>
+<span class="fc" id="L27">         O = null;</span>
+<span class="fc" id="L28">    }</span>
+    
+    @BeforeEach
+    void setUp() {
+        // Initialize resources before each test
+        try {
+<span class="fc" id="L34">			conteneur= new Conteneur(2); // Reset the conteneur before each test</span>
+<span class="pc" id="L35">		} catch (ErreurConteneur e) {</span>
+<span class="nc" id="L36">			e.printStackTrace();</span>
+		}; 
+<span class="fc" id="L38">        C = null; // Reset the key before each test</span>
+<span class="fc" id="L39">        O = null; // Reset the value before each test</span>
+<span class="fc" id="L40">    }</span>
+
+    @AfterEach
+    void tearDown() {
+        // Release resources after each test
+<span class="fc" id="L45">        conteneur = null; // Ensure that the conteneur is null after each test</span>
+<span class="fc" id="L46">        C = null; // Ensure that the key is null after each test</span>
+<span class="fc" id="L47">        O = null; // Ensure that the value is null after each test</span>
+<span class="fc" id="L48">    }</span>
+    
+    @Test
+    void ajouterTest1() {
+    	
+<span class="fc" id="L53">    	Assertions.assertThrows(Exception.class, () -&gt; {</span>
+    		// Partition1_3 - Object C = null
+    		// Partition2_3 - Object O = null
+    		// Partition1_4 - Object C already in container
+    		// Partition2_4	- Object O already in container
+<span class="fc" id="L58">    		conteneur.ajouter(C,O);</span>
+    		// Partition3_2	- Container full
+<span class="fc" id="L60">    		conteneur.ajouter(0,0);</span>
+    		//
+<span class="nc" id="L62">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L63">    	});</span>
+<span class="fc" id="L64">    }</span>
+    
+    @Test
+    void ajouterTest2() {
+<span class="fc" id="L68">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_1 - Object C != null
+<span class="fc" id="L70">        	C=2;</span>
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L74">        	conteneur.ajouter(C,O);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L76">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L78">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L79">        });</span>
+<span class="fc" id="L80">    }</span>
+    
+    @Test
+    void ajouterTest3() {
+<span class="fc" id="L84">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_1 - Object O != null
+<span class="fc" id="L87">        	O=5;</span>
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L90">        	conteneur.ajouter(C,O);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L92">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L94">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L95">        });</span>
+<span class="fc" id="L96">    }</span>
+    
+    @Test
+    void ajouterTest4() {
+<span class="fc" id="L100">        Assertions.assertThrows(testEtat.DebordementConteneur.class, () -&gt; {</span>
+            // Partition1_1 - Object C != null
+<span class="fc" id="L102">        	C=2;</span>
+            // Partition2_1 - Object O != null
+<span class="fc" id="L104">        	O=5;</span>
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L107">        	conteneur.ajouter(C,O);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L109">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L111">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L112">        });</span>
+<span class="fc" id="L113">    }</span>
+    
+    @Test
+    void ajouterTest5() {
+<span class="nc" id="L117">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L122">        	conteneur.ajouter(C,O);</span>
+        	// Partition3_1 - Container not full
+        	//
+<span class="fc" id="L125">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L126">        });</span>
+<span class="nc" id="L127">    }</span>
+    
+    @Test
+    void ajouterTest6() {
+<span class="nc" id="L131">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_1 - Object C != null
+<span class="fc" id="L133">        	C=2;</span>
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L137">        	conteneur.ajouter(C,O);</span>
+        	// Partition3_1 - Container not full
+            //
+<span class="fc" id="L140">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L141">        });</span>
+<span class="nc" id="L142">    }</span>
+    
+    @Test
+    void ajouterTest7() {
+<span class="nc" id="L146">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_1 - Object O != null
+<span class="fc" id="L149">        	O=5;</span>
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L152">        	conteneur.ajouter(C,O);</span>
+        	// Partition3_1 - Container not full
+        	//
+<span class="fc" id="L155">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L156">        });</span>
+<span class="nc" id="L157">    }</span>
+    
+    @Test
+    void ajouterTest8() {
+<span class="fc" id="L161">    	Assertions.assertAll(</span>
+<span class="fc" id="L162">    		    () -&gt; Assertions.assertDoesNotThrow(() -&gt; {</span>
+    	            // Partition1_1 - Object C != null
+<span class="fc" id="L164">    	        	C=2;</span>
+    	            // Partition2_1 - Object O != null
+<span class="fc" id="L166">    	        	O=5;</span>
+    	            // Partition1_4 - Object C already in container
+    	            // Partition2_4 - Object O already in container
+<span class="fc" id="L169">    	        	conteneur.ajouter(C,O);</span>
+    	        	// Partition3_1 - Container not full
+    	        	//
+<span class="fc" id="L172">    	        	O=6;</span>
+<span class="fc" id="L173">    	        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L174">    	        }),</span>
+<span class="fc" id="L175">    		    () -&gt; Assertions.assertEquals(O, conteneur.valeur(C)),</span>
+<span class="fc" id="L176">    		    () -&gt;  Assertions.assertEquals(2, conteneur.taille())</span>
+    		);
+<span class="fc" id="L178">    }</span>
+    
+    @Test
+    void ajouterTest9() {
+
+<span class="nc" id="L183">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L188">        	conteneur.ajouter(-1,O);</span>
+        	// Partition3_2 - Container full
+        	//
+<span class="fc" id="L191">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L192">        });</span>
+<span class="nc" id="L193">    }</span>
+
+    @Test
+    void ajouterTest10() {
+<span class="fc" id="L197">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_1 - Object C != null
+<span class="fc" id="L199">        	C=2;</span>
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L203">        	conteneur.ajouter(-1,O);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L205">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L207">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L208">        });</span>
+<span class="fc" id="L209">    }</span>
+    
+    @Test
+    void ajouterTest11() {
+<span class="fc" id="L213">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_1 - Object O != null
+<span class="fc" id="L216">        	O=5;</span>
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L219">        	conteneur.ajouter(-1,O);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L221">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L223">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L224">        });</span>
+<span class="fc" id="L225">    }</span>
+    
+    @Test
+    void ajouterTest12() {
+<span class="fc" id="L229">        Assertions.assertThrows(testEtat.DebordementConteneur.class, () -&gt; {</span>
+            // Partition1_1 - Object C != null
+<span class="fc" id="L231">        	C=2;</span>
+            // Partition2_1 - Object O != null
+<span class="fc" id="L233">        	O=5;</span>
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L236">        	conteneur.ajouter(-1,O);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L238">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L240">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L241">        });</span>
+<span class="fc" id="L242">    }</span>
+    
+    @Test
+    void ajouterTest13() {
+<span class="nc" id="L246">        Assertions.assertThrows(Exception.class,() -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L251">        	conteneur.ajouter(-1,O);</span>
+        	// Partition3_1 - Container not full
+        	//
+<span class="fc" id="L254">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L255">        });</span>
+<span class="nc" id="L256">    }</span>
+    
+    @Test
+    void ajouterTest14() {
+<span class="nc" id="L260">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_1 - Object C != null
+<span class="fc" id="L262">        	C=2;</span>
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L266">        	conteneur.ajouter(-1,O);</span>
+        	// Partition3_1 - Container not full
+        	//
+<span class="fc" id="L269">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L270">        });</span>
+<span class="nc" id="L271">    }</span>
+    
+    @Test
+    void ajouterTest15() {
+<span class="nc" id="L275">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_1 - Object O != null
+<span class="fc" id="L278">        	O=5;</span>
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O already in container
+<span class="fc" id="L281">        	conteneur.ajouter(-1,O);</span>
+        	// Partition3_1 - Container not full
+        	//
+<span class="fc" id="L284">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L285">        });</span>
+<span class="nc" id="L286">    }</span>
+    
+    @Test
+    void ajouterTest16() {
+<span class="fc" id="L290">    	Assertions.assertAll(</span>
+<span class="fc" id="L291">    		    () -&gt; Assertions.assertDoesNotThrow(() -&gt; {</span>
+    		    	// Partition1_1 - Object C != null
+<span class="fc" id="L293">    		    	C=2;</span>
+	                // Partition2_1 - Object O != null
+<span class="fc" id="L295">    		    	O=5;</span>
+	                // Partition1_4 - Object C not in container
+	                // Partition2_4 - Object O already in container
+<span class="fc" id="L298">    		    	conteneur.ajouter(-1,O);</span>
+    		    	// Partition3_1 - Container not full
+    	            //
+<span class="fc" id="L301">    	        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L302">    	        }),</span>
+<span class="fc" id="L303">    		    () -&gt; Assertions.assertEquals(O, conteneur.valeur(C))</span>
+    		);
+<span class="fc" id="L305">    }</span>
+    
+    @Test
+    void ajouterTest17() {
+<span class="fc" id="L309">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L314">        	conteneur.ajouter(C,-1);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L316">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L318">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L319">        });</span>
+<span class="fc" id="L320">    }</span>
+    
+    @Test
+    void ajouterTest18() {
+<span class="fc" id="L324">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_1 - Object C != null
+<span class="fc" id="L326">        	C=2;</span>
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L330">        	conteneur.ajouter(C,-1);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L332">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L334">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L335">        });</span>
+<span class="fc" id="L336">    }</span>
+
+    @Test
+    void ajouterTest19() {
+<span class="fc" id="L340">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_1 - Object O != null
+<span class="fc" id="L343">        	O=5;</span>
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L346">        	conteneur.ajouter(C,-1);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L348">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L350">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L351">        });</span>
+<span class="fc" id="L352">    }</span>
+    
+    @Test
+    void ajouterTest20() {
+<span class="fc" id="L356">        Assertions.assertThrows(testEtat.DebordementConteneur.class, () -&gt; {</span>
+            // Partition1_1 - Object C != null
+<span class="fc" id="L358">        	C=2;</span>
+            // Partition2_1 - Object O != null
+<span class="fc" id="L360">        	O=5;</span>
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L363">        	conteneur.ajouter(C,-1);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L365">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L367">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L368">        });</span>
+<span class="fc" id="L369">    }</span>
+    
+    @Test
+    void ajouterTest21() {
+<span class="nc" id="L373">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L378">        	conteneur.ajouter(C,-1);</span>
+        	// Partition3_1 - Container not full
+        	//
+<span class="fc" id="L381">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L382">        });</span>
+<span class="nc" id="L383">    }</span>
+
+    @Test
+    void ajouterTest22() {
+<span class="nc" id="L387">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_1 - Object C != null
+<span class="fc" id="L389">        	C=2;</span>
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C already in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L393">        	conteneur.ajouter(C,-1);</span>
+        	// Partition3_1 - Container not full
+        	//
+<span class="fc" id="L396">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L397">        });</span>
+<span class="nc" id="L398">    }</span>
+
+    @Test
+    void ajouterTest23() {
+<span class="nc" id="L402">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_1 - Object O != null
+<span class="fc" id="L405">        	O=5;</span>
+        	// Partition1_4 - Object C already in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L408">        	conteneur.ajouter(C,-1);</span>
+        	// Partition3_1 - Container not full
+        	//
+<span class="fc" id="L411">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L412">        });</span>
+<span class="nc" id="L413">    }</span>
+    
+    @Test
+    void ajouterTest24() {
+<span class="nc" id="L417">    	Assertions.assertAll(</span>
+<span class="fc" id="L418">    		    () -&gt; Assertions.assertDoesNotThrow(() -&gt; {</span>
+    		    	// Partition1_1 - Object C != null
+<span class="fc" id="L420">    		    	C=2;</span>
+    	            // Partition2_1 - Object O != null
+<span class="fc" id="L422">    	        	O=5;</span>
+    	        	// Partition1_4 - Object C already in container
+    	            // Partition2_4 - Object O not in container
+<span class="fc" id="L425">    	        	conteneur.ajouter(C,-1);</span>
+    	        	// Partition3_1 - Container not full
+    	        	//
+<span class="fc" id="L428">    	        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L429">    	        }),</span>
+<span class="fc" id="L430">    		    () -&gt; Assertions.assertEquals(O, conteneur.valeur(C)),</span>
+<span class="pc" id="L431">    		    () -&gt;  Assertions.assertEquals(1, conteneur.taille())</span>
+    		);
+<span class="fc" id="L433">    }</span>
+    
+    @Test
+    void ajouterTest25() {
+<span class="fc" id="L437">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L442">        	conteneur.ajouter(-1,-1);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L444">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L446">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L447">        });</span>
+<span class="fc" id="L448">    }</span>
+
+    @Test
+    void ajouterTest26() {
+<span class="fc" id="L452">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_1 - Object C != null
+<span class="fc" id="L454">        	C=2;</span>
+        	// Partition2_3 - Object O = null
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L458">        	conteneur.ajouter(-1,-1);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L460">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L462">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L463">        });</span>
+<span class="fc" id="L464">    }</span>
+ 
+	@Test
+    void ajouterTest27() {
+<span class="fc" id="L468">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_1 - Object O != null
+<span class="fc" id="L471">        	O=5;</span>
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L474">        	conteneur.ajouter(-1,-1);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L476">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L478">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L479">        });</span>
+<span class="fc" id="L480">    }</span>
+	
+	@Test
+    void ajouterTest28() {
+<span class="fc" id="L484">        Assertions.assertThrows(testEtat.DebordementConteneur.class, () -&gt; {</span>
+        	// Partition1_1 - Object C != null
+<span class="fc" id="L486">        	C=2;</span>
+            // Partition2_1 - Object O != null
+<span class="fc" id="L488">        	O=5;</span>
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L491">        	conteneur.ajouter(-1,-1);</span>
+        	// Partition3_2 - Container full
+<span class="fc" id="L493">        	conteneur.ajouter(0,0);</span>
+        	//
+<span class="nc" id="L495">        	conteneur.ajouter(C,O);</span>
+<span class="nc" id="L496">        });</span>
+<span class="fc" id="L497">    }</span>
+	
+	@Test
+    void ajouterTest29() {
+<span class="nc" id="L501">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_3 - Object O = null
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L506">        	conteneur.ajouter(-1,-1);</span>
+        	// Partition3_1 - Container not full
+        	//
+<span class="fc" id="L509">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L510">        });</span>
+<span class="nc" id="L511">    }</span>
+
+    // Test30
+    @Test
+    void ajouterTest30() {
+<span class="nc" id="L516">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_1 - Object C != null
+<span class="fc" id="L518">        	C=2;</span>
+        	// Partition2_3 - Object O = null
+            // Partition1_4 - Object C not in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L522">        	conteneur.ajouter(-1,-1);</span>
+        	// Partition3_1 - Container not full
+        	//
+<span class="fc" id="L525">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L526">        });</span>
+<span class="nc" id="L527">    }</span>
+    
+    @Test
+    void ajouterTest31() {
+<span class="nc" id="L531">        Assertions.assertThrows(Exception.class, () -&gt; {</span>
+            // Partition1_3 - Object C = null
+            // Partition2_1 - Object O != null
+<span class="fc" id="L534">        	O=5;</span>
+        	// Partition1_4 - Object C not in container
+            // Partition2_4 - Object O not in container
+<span class="fc" id="L537">        	conteneur.ajouter(-1,-1);</span>
+        	// Partition3_1 - Container not full
+        	//
+<span class="fc" id="L540">        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L541">        });</span>
+<span class="nc" id="L542">    }</span>
+    
+    @Test
+    void ajouterTest32() {
+<span class="fc" id="L546">    	Assertions.assertAll(</span>
+<span class="fc" id="L547">    		    () -&gt; Assertions.assertDoesNotThrow(() -&gt; {</span>
+    		    	// Partition1_1 - Object C != null
+<span class="fc" id="L549">    		    	C=2;</span>
+    		    	// Partition2_1 - Object O != null
+<span class="fc" id="L551">    	        	O=5;</span>
+    	        	// Partition1_4 - Object C not in container
+    	            // Partition2_4 - Object O not in container
+<span class="fc" id="L554">    	        	conteneur.ajouter(-1,-1);</span>
+    	        	// Partition3_1 - Container not full
+    	        	//
+<span class="fc" id="L557">    	        	conteneur.ajouter(C,O);</span>
+<span class="fc" id="L558">    	        }),</span>
+<span class="fc" id="L559">    		    () -&gt; Assertions.assertEquals(O, conteneur.valeur(C))</span>
+    		);
+<span class="fc" id="L561">    }</span>
+    
+ 
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span>test (21 déc. 2023 11:04:41)</div></body></html>

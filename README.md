@@ -1,10 +1,3 @@
-# FISA_ITIC_23_24
-
-Groupe:
-- Nom1 Prenom1 (à modifier)
-- Nom2 Prenom2 (à modifier)
-- Nom3 Prenom3 (à modifier)
-
 Copyright (C) 2023-2024
 
 Contact: denisse.munantearzapalo[at]ensiie.fr
